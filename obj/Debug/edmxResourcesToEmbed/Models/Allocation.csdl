@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AllocationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="AllocationEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AllocatedSeats" EntityType="AllocationModel.AllocatedSeat" />
+    <EntitySet Name="Roles" EntityType="AllocationModel.Role" />
+    <EntitySet Name="Skills" EntityType="AllocationModel.Skill" />
+    <EntitySet Name="Users" EntityType="AllocationModel.User" />
+    <EntitySet Name="UserSkills" EntityType="AllocationModel.UserSkill" />
+    <AssociationSet Name="FK_AllocatedSeat_UserSkill" Association="AllocationModel.FK_AllocatedSeat_UserSkill">
+      <End Role="UserSkill" EntitySet="UserSkills" />
+      <End Role="AllocatedSeat" EntitySet="AllocatedSeats" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Role" Association="AllocationModel.FK_User_Role">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserSkill_Skill" Association="AllocationModel.FK_UserSkill_Skill">
+      <End Role="Skill" EntitySet="Skills" />
+      <End Role="UserSkill" EntitySet="UserSkills" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserSkill_User" Association="AllocationModel.FK_UserSkill_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UserSkill" EntitySet="UserSkills" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AllocatedSeat">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SeatNo" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UserSkillId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="UserSkill" Relationship="AllocationModel.FK_AllocatedSeat_UserSkill" FromRole="AllocatedSeat" ToRole="UserSkill" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Users" Relationship="AllocationModel.FK_User_Role" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Skill">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="UserSkills" Relationship="AllocationModel.FK_UserSkill_Skill" FromRole="Skill" ToRole="UserSkill" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Role" Relationship="AllocationModel.FK_User_Role" FromRole="User" ToRole="Role" />
+    <NavigationProperty Name="UserSkills" Relationship="AllocationModel.FK_UserSkill_User" FromRole="User" ToRole="UserSkill" />
+  </EntityType>
+  <EntityType Name="UserSkill">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="SkillId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AllocatedSeats" Relationship="AllocationModel.FK_AllocatedSeat_UserSkill" FromRole="UserSkill" ToRole="AllocatedSeat" />
+    <NavigationProperty Name="Skill" Relationship="AllocationModel.FK_UserSkill_Skill" FromRole="UserSkill" ToRole="Skill" />
+    <NavigationProperty Name="User" Relationship="AllocationModel.FK_UserSkill_User" FromRole="UserSkill" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_AllocatedSeat_UserSkill">
+    <End Type="AllocationModel.UserSkill" Role="UserSkill" Multiplicity="1" />
+    <End Type="AllocationModel.AllocatedSeat" Role="AllocatedSeat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserSkill">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AllocatedSeat">
+        <PropertyRef Name="UserSkillId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Role">
+    <End Type="AllocationModel.Role" Role="Role" Multiplicity="1" />
+    <End Type="AllocationModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserSkill_Skill">
+    <End Type="AllocationModel.Skill" Role="Skill" Multiplicity="1" />
+    <End Type="AllocationModel.UserSkill" Role="UserSkill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Skill">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserSkill">
+        <PropertyRef Name="SkillId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserSkill_User">
+    <End Type="AllocationModel.User" Role="User" Multiplicity="1" />
+    <End Type="AllocationModel.UserSkill" Role="UserSkill" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserSkill">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
