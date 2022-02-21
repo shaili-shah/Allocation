@@ -14,7 +14,7 @@ namespace Allocation.Models
     
     public partial class AllocatedSeat
     {
-        public int Id { get; set; }
+        public int AllocatedSeatId { get; set; }
         public int SeatNo { get; set; }
         public System.DateTime Date { get; set; }
         public int UserSkillId { get; set; }

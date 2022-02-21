@@ -2,34 +2,34 @@
 <Schema Namespace="AllocationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="AllocatedSeat">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="AllocatedSeatId" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AllocatedSeatId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SeatNo" Type="int" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
     <Property Name="UserSkillId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="RoleId" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Skill">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="SkillId" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SkillId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="IsActive" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="User">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="UserId" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -38,9 +38,9 @@
   </EntityType>
   <EntityType Name="UserSkill">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="UserSkillId" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserSkillId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="UserId" Type="int" Nullable="false" />
     <Property Name="SkillId" Type="int" Nullable="false" />
   </EntityType>
@@ -49,7 +49,7 @@
     <End Role="AllocatedSeat" Type="Self.AllocatedSeat" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="UserSkill">
-        <PropertyRef Name="Id" />
+        <PropertyRef Name="UserSkillId" />
       </Principal>
       <Dependent Role="AllocatedSeat">
         <PropertyRef Name="UserSkillId" />
@@ -61,7 +61,7 @@
     <End Role="User" Type="Self.User" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Role">
-        <PropertyRef Name="Id" />
+        <PropertyRef Name="RoleId" />
       </Principal>
       <Dependent Role="User">
         <PropertyRef Name="RoleId" />
@@ -73,7 +73,7 @@
     <End Role="UserSkill" Type="Self.UserSkill" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Skill">
-        <PropertyRef Name="Id" />
+        <PropertyRef Name="SkillId" />
       </Principal>
       <Dependent Role="UserSkill">
         <PropertyRef Name="SkillId" />
@@ -85,7 +85,7 @@
     <End Role="UserSkill" Type="Self.UserSkill" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="User">
-        <PropertyRef Name="Id" />
+        <PropertyRef Name="UserId" />
       </Principal>
       <Dependent Role="UserSkill">
         <PropertyRef Name="UserId" />

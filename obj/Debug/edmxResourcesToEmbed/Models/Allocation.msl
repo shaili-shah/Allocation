@@ -7,7 +7,7 @@
           <ScalarProperty Name="UserSkillId" ColumnName="UserSkillId" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="SeatNo" ColumnName="SeatNo" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AllocatedSeatId" ColumnName="AllocatedSeatId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -16,7 +16,7 @@
         <MappingFragment StoreEntitySet="Role">
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -25,7 +25,7 @@
         <MappingFragment StoreEntitySet="Skill">
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SkillId" ColumnName="SkillId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -37,7 +37,7 @@
           <ScalarProperty Name="Phone" ColumnName="Phone" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -46,7 +46,7 @@
         <MappingFragment StoreEntitySet="UserSkill">
           <ScalarProperty Name="SkillId" ColumnName="SkillId" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserSkillId" ColumnName="UserSkillId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

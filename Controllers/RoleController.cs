@@ -19,6 +19,11 @@ namespace Allocation.Controllers
         {
             try
             {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<Role, RoleModel>();
+                });
+                var mapper = config.CreateMapper();
                 Role role = new Role
                 {
                     Name = roleName,
@@ -26,7 +31,8 @@ namespace Allocation.Controllers
                 };
                 dbContext.Roles.Add(role);
                 dbContext.SaveChanges();
-                return Ok();
+                RoleModel roleModel = mapper.Map<RoleModel>(role);
+                return Ok(new { data = roleModel });
             }
             catch(Exception ex)
             {
@@ -42,14 +48,16 @@ namespace Allocation.Controllers
             {
                 var config = new MapperConfiguration(cfg => {
                     cfg.CreateMap<RoleModel, Role>();
+                    cfg.CreateMap<Role, RoleModel>();
                 });
                 var mapper = config.CreateMapper();
-                var role = dbContext.Roles.FirstOrDefault(x => x.Id == model.Id);
+                var role = dbContext.Roles.FirstOrDefault(x => x.RoleId == model.RoleId);
                 var role1 = mapper.Map<RoleModel, Role>(model);
 
                 dbContext.Entry(role).CurrentValues.SetValues(role1);
                 dbContext.SaveChanges();
-                return Ok();
+                RoleModel roleModel = mapper.Map<RoleModel>(role1);
+                return Ok(new { data = roleModel });
             }
             catch(Exception ex)
             {
@@ -59,11 +67,11 @@ namespace Allocation.Controllers
 
         [Route("RemoveRole")]
         [HttpPost]
-        public IHttpActionResult RemoveRole(int id)
+        public IHttpActionResult RemoveRole(int roleId)
         {
             try
             {
-                var role = dbContext.Roles.FirstOrDefault(x => x.Id == id);
+                var role = dbContext.Roles.FirstOrDefault(x => x.RoleId == roleId);
                 if (role.Users.Any())
                     return Ok(new { data = "can not delete role because role is in use" });
 

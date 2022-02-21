@@ -20,7 +20,7 @@ namespace Allocation.Models
             this.AllocatedSeats = new HashSet<AllocatedSeat>();
         }
     
-        public int Id { get; set; }
+        public int UserSkillId { get; set; }
         public int UserId { get; set; }
         public int SkillId { get; set; }
     

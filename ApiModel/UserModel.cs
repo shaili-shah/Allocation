@@ -20,5 +20,7 @@ namespace Allocation.ApiModel
         public string Password { get; set; } 
 
         public int SkillId { get; set; }
+
+        public int UserId { get; set; }
     }
 }

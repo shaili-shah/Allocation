@@ -7,34 +7,34 @@
     <Schema Namespace="AllocationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AllocatedSeat">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="AllocatedSeatId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AllocatedSeatId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SeatNo" Type="int" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="UserSkillId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="RoleId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Skill">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="SkillId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SkillId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -43,9 +43,9 @@
         </EntityType>
         <EntityType Name="UserSkill">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserSkillId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserSkillId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="SkillId" Type="int" Nullable="false" />
         </EntityType>
@@ -54,7 +54,7 @@
           <End Role="AllocatedSeat" Type="Self.AllocatedSeat" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserSkill">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="UserSkillId" />
             </Principal>
             <Dependent Role="AllocatedSeat">
               <PropertyRef Name="UserSkillId" />
@@ -66,7 +66,7 @@
           <End Role="User" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="RoleId" />
             </Principal>
             <Dependent Role="User">
               <PropertyRef Name="RoleId" />
@@ -78,7 +78,7 @@
           <End Role="UserSkill" Type="Self.UserSkill" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Skill">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="SkillId" />
             </Principal>
             <Dependent Role="UserSkill">
               <PropertyRef Name="SkillId" />
@@ -90,7 +90,7 @@
           <End Role="UserSkill" Type="Self.UserSkill" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="UserSkill">
               <PropertyRef Name="UserId" />
@@ -149,9 +149,9 @@
         </EntityContainer>
         <EntityType Name="AllocatedSeat">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="AllocatedSeatId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AllocatedSeatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SeatNo" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UserSkillId" Type="Int32" Nullable="false" />
@@ -159,27 +159,27 @@
         </EntityType>
         <EntityType Name="Role">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="RoleId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="AllocationModel.FK_User_Role" FromRole="Role" ToRole="User" />
         </EntityType>
         <EntityType Name="Skill">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="SkillId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SkillId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="UserSkills" Relationship="AllocationModel.FK_UserSkill_Skill" FromRole="Skill" ToRole="UserSkill" />
         </EntityType>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -190,9 +190,9 @@
         </EntityType>
         <EntityType Name="UserSkill">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserSkillId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserSkillId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="SkillId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AllocatedSeats" Relationship="AllocationModel.FK_AllocatedSeat_UserSkill" FromRole="UserSkill" ToRole="AllocatedSeat" />
@@ -204,7 +204,7 @@
           <End Type="AllocationModel.AllocatedSeat" Role="AllocatedSeat" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserSkill">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="UserSkillId" />
             </Principal>
             <Dependent Role="AllocatedSeat">
               <PropertyRef Name="UserSkillId" />
@@ -216,7 +216,7 @@
           <End Type="AllocationModel.User" Role="User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="RoleId" />
             </Principal>
             <Dependent Role="User">
               <PropertyRef Name="RoleId" />
@@ -228,7 +228,7 @@
           <End Type="AllocationModel.UserSkill" Role="UserSkill" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Skill">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="SkillId" />
             </Principal>
             <Dependent Role="UserSkill">
               <PropertyRef Name="SkillId" />
@@ -240,7 +240,7 @@
           <End Type="AllocationModel.UserSkill" Role="UserSkill" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="UserSkill">
               <PropertyRef Name="UserId" />
@@ -259,7 +259,7 @@
                 <ScalarProperty Name="UserSkillId" ColumnName="UserSkillId" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="SeatNo" ColumnName="SeatNo" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AllocatedSeatId" ColumnName="AllocatedSeatId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -268,7 +268,7 @@
               <MappingFragment StoreEntitySet="Role">
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -277,7 +277,7 @@
               <MappingFragment StoreEntitySet="Skill">
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SkillId" ColumnName="SkillId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -289,7 +289,7 @@
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -298,7 +298,7 @@
               <MappingFragment StoreEntitySet="UserSkill">
                 <ScalarProperty Name="SkillId" ColumnName="SkillId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserSkillId" ColumnName="UserSkillId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
