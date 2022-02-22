@@ -12,5 +12,7 @@
 
         public string SkillName { get; set; }
 
+        public bool IsAllocated { get; set; }
+
     }
 }

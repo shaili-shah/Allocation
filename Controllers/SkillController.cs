@@ -28,12 +28,11 @@ namespace Allocation.Controllers
                 var mapper = config.CreateMapper();
                 var lstSkill = dbContext.Skills.Where(x => x.IsActive).ToList();
                 var lstSkillModel = mapper.Map<List<Skill>, List<SkillModel>>(lstSkill);
-                //return Ok(new ResultBase<List<SkillModel>>{ Data = lstSkillModel , Success = true });
-                return Ok(new { data = lstSkillModel });
+                return Ok(new ResultBase<List<SkillModel>>{ Data = lstSkillModel , Success = true });
             }
             catch(Exception ex)
             {
-                throw ex;
+                return InternalServerError(ex);
             }
         }
 
@@ -49,11 +48,11 @@ namespace Allocation.Controllers
                 var mapper = config.CreateMapper();
                 var skill = dbContext.Skills.FirstOrDefault(x => x.SkillId == skillId);
                 var skillModel = mapper.Map<Skill, SkillModel>(skill);
-                return Ok(new { data = skillModel });
+                return Ok(new ResultBase<SkillModel> { Data = skillModel, Success = true });
             }
             catch (Exception ex)
             {
-                throw ex;
+                return InternalServerError(ex);
             }
         }
 
@@ -72,12 +71,11 @@ namespace Allocation.Controllers
 
                 List<UserSkillResponseModel> lstmodel = new List<UserSkillResponseModel>();
                 lstmodel = mapper.Map<List<UserSkill>, List<UserSkillResponseModel>>(lstUserSkill);
-               
-                return Ok(new { data = lstmodel });
+                return Ok(new ResultBase<List<UserSkillResponseModel>> { Data = lstmodel, Success = true });
             }
             catch (Exception ex)
             {
-                throw ex;
+                return InternalServerError(ex);
             }
         }
 
@@ -96,12 +94,11 @@ namespace Allocation.Controllers
 
                 List<UserSkillResponseModel> lstmodel = new List<UserSkillResponseModel>();
                 lstmodel = mapper.Map<List<UserSkill>, List<UserSkillResponseModel>>(lstUser);
-
-                return Ok(new { data = lstmodel });
+                return Ok(new ResultBase<List<UserSkillResponseModel>> { Data = lstmodel, Success = true });
             }
             catch (Exception ex)
             {
-                throw ex;
+                return InternalServerError(ex);
             }
         }
 
@@ -110,7 +107,7 @@ namespace Allocation.Controllers
         #region post
 
         [Authorize(Roles = "Admin")]
-        [Route("Add Skill")]
+        [Route("AddSkill")]
         [HttpPost]
         public IHttpActionResult Add(string skillName)
         {
@@ -125,19 +122,25 @@ namespace Allocation.Controllers
                     Name = skillName,
                     IsActive = true
                 };
+
+                bool isSkillExist = dbContext.Skills.Any(x => x.Name == skillName  && x.IsActive);
+                if (isSkillExist)
+                {
+                    return Ok(new ResultBase<SkillModel> { Msg = "Skill already exist", Success = false });
+                }
                 dbContext.Skills.Add(skill);
                 dbContext.SaveChanges();
                 SkillModel skillModel =  mapper.Map<SkillModel>(skill);
-                return Ok(new { data = skillModel });
+                return Ok(new ResultBase<SkillModel> { Data = skillModel, Msg = "Skill added succesfully", Success = true });
             }
            catch(Exception ex)
             {
-                throw ex;
+                return InternalServerError(ex);
             }
         }
 
         [Authorize(Roles = "Admin")]
-        [Route("Edit Skill")]
+        [Route("EditSkill")]
         [HttpPost]
         public IHttpActionResult Edit(SkillModel model)
         {
@@ -150,20 +153,27 @@ namespace Allocation.Controllers
                 var mapper = config.CreateMapper();
                 var skill = dbContext.Skills.Include(x => x.UserSkills).FirstOrDefault(x => x.SkillId == model.SkillId);
                 var skill1 = mapper.Map<SkillModel, Skill>(model);
+                
+                bool isSkillExist = dbContext.Skills.Any(x => x.Name == model.Name && x.IsActive && x.SkillId != model.SkillId);
+                if (isSkillExist)
+                {
+                    return Ok(new ResultBase<SkillModel> { Msg = "Skill already exist", Success = false });
+                }
 
                 dbContext.Entry(skill).CurrentValues.SetValues(skill1);
                 dbContext.SaveChanges();
                 SkillModel skillModel = mapper.Map<SkillModel>(skill1);
-                return Ok(new { data = skillModel });
+
+                return Ok(new ResultBase<SkillModel> { Data = skillModel, Msg = "Skill updated succesfully", Success = true });
             }
             catch(Exception ex)
             {
-                throw ex;
+                return InternalServerError(ex);
             }
         }
 
 
-        [Route("Assign Skill")]
+        [Route("AssignSkill")]
         [HttpPost]
         public IHttpActionResult AssignSkill(int userId, int skillId)
         {
@@ -176,11 +186,11 @@ namespace Allocation.Controllers
                 };
                 dbContext.UserSkills.Add(userSkill);
                 dbContext.SaveChanges();
-                return Ok();
+                return Ok(new ResultBase<SkillModel> { Msg = "Skill assign succesfully", Success = true });
             }
             catch (Exception ex)
             {
-                throw ex;
+                return InternalServerError(ex);
             }
 
         }
@@ -188,7 +198,7 @@ namespace Allocation.Controllers
         #endregion
 
         [Authorize(Roles = "Admin")]
-        [Route("Remove Skill")]
+        [Route("RemoveSkill")]
         [HttpPost]
         public IHttpActionResult RemoveSkill(int skillId)
         {
@@ -196,15 +206,15 @@ namespace Allocation.Controllers
             {
                 var skill = dbContext.Skills.FirstOrDefault(x => x.SkillId == skillId);
                 if (skill.UserSkills.Any())
-                    return Ok(new { data = "can not delete skill because skill is in use" });
+                    return Ok(new ResultBase<SkillModel> { Msg = "can not delete skill because skill is in use", Success = false });
                 skill.IsActive = false;
 
                 dbContext.SaveChanges();
-                return Ok(new { data = "skil deleted successfully" });
+                return Ok(new ResultBase<SkillModel> { Msg = "skill deleted successfully", Success = true });
             }
             catch(Exception ex)
             {
-                throw ex;
+                return InternalServerError(ex);
             }
         }
       

@@ -714,11 +714,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiModel\AllocatedSeatModel.cs" />
+    <Compile Include="ApiModel\CurrentUserModel.cs" />
+    <Compile Include="ApiModel\LoginResponseModel.cs" />
     <Compile Include="ApiModel\RegisterResponseModel.cs" />
     <Compile Include="ApiModel\ResultBase.cs" />
     <Compile Include="ApiModel\RoleModel.cs" />
     <Compile Include="ApiModel\SkillModel.cs" />
     <Compile Include="ApiModel\UserModel.cs" />
+    <Compile Include="ApiModel\UserProfileEditModel.cs" />
+    <Compile Include="ApiModel\UserProfileModel.cs" />
     <Compile Include="ApiModel\UserSkillResponseModel.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
